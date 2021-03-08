@@ -1,0 +1,15 @@
+Trigger
+
+create trigger stud_marks
+
+before INSERT
+
+on
+
+Student
+
+for each row
+
+set Student.total = Student.course1 + Student.course2 + Student.course3, Student.per = Student.total * 60 / 100;
+
+insert into Student values(0, "ABCDE", 20, 20, 20, 0, 0);
