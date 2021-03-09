@@ -1,50 +1,50 @@
 package com.ltts.model;
 
 public class Team {
-	
-	private int teamId;
-	private String teamName;
-	private String ownerName;
-	private String coach;
-	private int captainId;
-	
+	private int teamid;
+	private String teamname;
+    private String ownername;
+    private String coachname;
 	public Team() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public Team(int teamId, String teamName, String ownerName, String coach) {
+	public Team(int teamid, String teamname, String ownername, String coachname) {
 		super();
-		this.teamId = teamId;
-		this.teamName = teamName;
-		this.ownerName = ownerName;
-		this.coach = coach;
+		this.teamid = teamid;
+		this.teamname = teamname;
+		this.ownername = ownername;
+		this.coachname = coachname;
 	}
-	public int getTeamId() {
-		return teamId;
+	public int getTeam_id() {
+		return teamid;
 	}
-	public void setTeamId(int teamId) {
-		this.teamId = teamId;
+	public void setTeam_id(int teamid) {
+		this.teamid = teamid;
 	}
-	public String getTeamName() {
-		return teamName;
+	public String getTeamname() {
+		return teamname;
 	}
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
+	public void setTeamname(String teamname) {
+		this.teamname = teamname;
 	}
-
-	public String getOwnerName() {
-		return ownerName;
+	public String getOwnername() {
+		return ownername;
 	}
-
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setOwnername(String ownername) {
+		this.ownername = ownername;
 	}
-
-	public String getCoach() {
-		return coach;
+	public String getCoachname() {
+		return coachname;
 	}
-
-	public void setCoach(String coach) {
-		this.coach = coach;
+	public void setCoachname(String coachname) {
+		this.coachname = coachname;
 	}
-
+	@Override
+	public String toString() {
+		return "Team [teamid=" + teamid + ", teamname=" + teamname + ", ownername=" + ownername + ", coachname="
+				+ coachname + "]";
+	}
+    
+    
 }
