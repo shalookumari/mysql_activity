@@ -1,235 +1,83 @@
-package com.ltts.Dao;
-
+package com.ltts.dao;
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ltts.config.MyConnection;
+import com.ltts.configuration.MyConnection;
 import com.ltts.model.Player;
-import com.ltts.model.Team;
+
 
 public class PlayerDao {
-	public List<Player> getAllPlayers(){
-		List<Player> li=new ArrayList<Player>();
-		
+	public List<Player> getAllPlayers()
+	{
+		List<Player> li= new ArrayList<Player>();
 		return li;
-
-}
-public Player getplayerById(int id) {
-	Player p=new Player();
-	// p.getPlayerId()
-	
-	return p;
-}
-
-public boolean createPlayer() throws Exception {
-	Connection mc= MyConnection.getConnection();
-	
-	PreparedStatement ps1=mc.prepareStatement("create table player(playerId int(2) primary key , name varchar(20), date date, skill varchar(30), noOfmatches int, runs int, wickets int,nation varchar(30),power double,teamId int,FOREIGN KEY (teamId) REFERENCES Team(teamid))");
-	
-	//ps.setInt(1,getPlayerId());
-	//ps.setString(2,getPlayerName());
-	return ps1.execute();
-	
-}
-
-
-public void insertPlayer(Player p) throws Exception {
-	
-	//Player pla = new Player();
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	PreparedStatement ps=mc.prepareStatement("insert into player values(?,?,?,?,?,?,?,?,?,?);");
-	  ps.setInt(1,p.getPlayerId());
-	  ps.setString(2,p.getName()); ps.setString(3,p.getDateOfBirth());
-	  ps.setString(4,p.getSkill()); ps.setInt(5,p.getNumberOfMatches());
-	  ps.setInt(6,p.getRuns()); ps.setInt(7,p.getWickets());
-	  ps.setString(8,p.getNationality()); ps.setDouble(9,p.getPowerRating());
-	  ps.setInt(10,p.getTeamId());
-	 
-	 System.out.println(p.getName());
-	 ps.executeUpdate();	
-	 System.out.println("Successfully Added");
-		/*
-		 * String sql =
-		 * "INSERT INTO Player VALUES("+p.getPlayerId()+",'"+p.getName()+"','"+p.
-		 * getDateOfBirth()+"','"+p.getSkill()+"',"+p.getNumberOfMatches()+","+p.
-		 * getRuns()+","+p.getWickets()+",'"+p.getNationality()+"',"+p.
-		 * getPowerRating()+","+p.getTeamId()+")"; stmt.executeUpdate(sql);
-		 * System.out.println("susccefully");
-		 */
-	
-}
-
-public void searchPlayer(Player p) throws Exception{
-	
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	
-	PreparedStatement ps = mc.prepareStatement("select p.name, t.teamName, t.coachname, p.date, t.captainid from player p,team t  where p.teamId=t.teamId && p.playerId = (?);");
-	
-	 ps.setInt(1,p.getPlayerId());
-	ResultSet rs = ps.executeQuery();
-	
-	while(rs.next()){
-		System.out.println(rs.getString(1)+" " + rs.getString(2)+" " + rs.getString(3)+" " + rs.getString(4)+" " + rs.getString(5));
+	}
+	public Player getPlayerById(int id)
+	{
+		Player p=new Player();
+		return p;
 	}
 	
-	mc.close();	
-}
-
-public void searchPlayerbyname(Player p) throws Exception{
-	
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	
-	PreparedStatement ps = mc.prepareStatement("select p.name, t.teamName, t.coachname, p.date, t.captainid from player p,team t  where p.teamId=t.teamId && p.name = (?);");
-	
-	 ps.setString(1,p.getName());
-	ResultSet rs = ps.executeQuery();
-	
-	while(rs.next()){
-		System.out.println(rs.getString(1)+" " + rs.getString(2)+" " + rs.getString(3)+" " + rs.getString(4)+" " + rs.getString(5));
-	}
-	
-	mc.close();	
-}
-
-public void displayallPlayer(Player p) throws Exception{
-	
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	
-	PreparedStatement ps = mc.prepareStatement("select * from player;");
-
-	ResultSet rs = ps.executeQuery();
-	
-	while(rs.next()){
-		System.out.println(rs.getInt(1)+" " + rs.getString(2)+" " +  rs.getString(3)+" " +  rs.getString(4) + " " + rs.getInt(5) + " " + rs.getInt(6) + " " + rs.getInt(7) + " " + rs.getString(8)+ " " + rs.getInt(9) + " " + rs.getInt(10));
-	}
-	
-	mc.close();
+	public boolean insertPlayer(Player p) throws Exception
+	{
+		Connection c= MyConnection.getConnection();
+		PreparedStatement ps= c.prepareStatement("insert into player values(?,?,?,?,?,?,?,?,?)");
+		ps.setInt(1, p.getPlayer_id());
+		ps.setString(2, p.getName());
+		ps.setDate(3,(Date) p.getDateOfBirth());
+		ps.setString(4, p.getNationality());
+		ps.setString(5, p.getSkills());
+		ps.setInt(6, p.getRuns());
+		ps.setInt(7, p.getWickets());
+		ps.setInt(8, p.getNumber_of_matches());
+		ps.setInt(9, p.getTeam_id());
+		System.out.println("Data Inserted Succesfully");
+		return ps.execute();
 		
-}
-
-public void displayPlayeronTeam(Player p,Team t) throws Exception{
-	
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	
-	PreparedStatement ps = mc.prepareStatement("select * from player p,team t  where p.teamId=t.teamId && t.teamName = (?);");
-	
-	 ps.setString(1,t.getTeamName());
-
-	 
-	ResultSet rs = ps.executeQuery();
-	
-	while(rs.next()){
-		System.out.println(rs.getInt(1)+" " + rs.getString(2)+" " +  rs.getString(3)+" " +  rs.getString(4) + " " + rs.getInt(5) + " " + rs.getInt(6) + " " + rs.getInt(7) + " " + rs.getString(8)+ " " + rs.getInt(9) + " " + rs.getInt(10));
 	}
 	
-	mc.close();
-}
-
-public void displayPlayeronTeamandskill(Player p,Team t) throws Exception{
-	
-	Connection mc=MyConnection.getConnection();
-	Statement stmt = mc.createStatement();
-	
-	PreparedStatement ps = mc.prepareStatement("select * from player p,team t  where (p.teamId=t.teamId) && (p.skill = (?) && t.teamName = (?)) ;");
-	
-	 ps.setString(2,t.getTeamName());
-	 ps.setString(1,p.getSkill());
-	 
-	 ResultSet rs = ps.executeQuery();
-	
-	 while(rs.next()){
-			System.out.println(rs.getInt(1)+" " + rs.getString(2)+" " +  rs.getString(3)+" " +  rs.getString(4) + " " + rs.getInt(5) + " " + rs.getInt(6) + " " + rs.getInt(7) + " " + rs.getString(8)+ " " + rs.getInt(9) + " " + rs.getInt(10));
+	public void getAll(String name) throws Exception
+	{
+		Connection c= MyConnection.getConnection();
+		PreparedStatement ps=c.prepareStatement("Select p.name,t.teamname,t.coachname,TIMESTAMPDIFF(YEAR, dateOfBirth, CURDATE()) AS age from player as p inner join team as t on p.teamid=t.teamid where p.name=?");
+		ps.setString(1, name);
+		ResultSet rs=ps.executeQuery();
+		while(rs.next())
+		{
+			String name1=rs.getString(1);
+			String n=rs.getString(2);
+			String cn=rs.getString(3);
+			String dob=rs.getString(4);
+			System.out.println("Player Name: "+name1+" Team Name: "+n+" Coach Name: "+cn+" Age: "+dob);
+			
 		}
-		
-		mc.close();
-	
-}
-
-public void updatePRuns(Player p) throws Exception {
-	Connection mc=MyConnection.getConnection();
-	
-	Statement s = mc.createStatement();
-	
-	PreparedStatement ps=mc.prepareStatement("update player  set runs = (?)  where playerId = (?); ");
-	
-	//ResultSet rs = s.executeQuery("select * from Team");
-	ps.setInt(1,p.getRuns());
-	ps.setInt(2,p.getPlayerId());
-	
-     
-	boolean rs = ps.execute();
-    
-	if(rs)
-	{}
-	else{
-		System.out.println("Player Runs successfully updated.");
 	}
-     
-//	while(rs.next()){
-//		System.out.println(rs.getString(1)+" " + rs.getString(2));
-//	}
-//	
-//	mc.close();
-}
 
-public void updatePWickets(Player p) throws Exception {
-	Connection mc=MyConnection.getConnection();
-	
-	Statement s = mc.createStatement();
-	
-	PreparedStatement ps=mc.prepareStatement("update player set wickets = (?)  where playerId = (?); ");
-	
-	//ResultSet rs = s.executeQuery("select * from Team");
-	ps.setInt(1,p.getWickets());
-	ps.setInt(2,p.getPlayerId());
-	
-	boolean rs = ps.execute();
-    
-	if(rs)
-	{}
-	else{
-		System.out.println("Player Wickets successfully updated.");
+	public boolean updatePlayer(int id,String name) throws Exception
+	{
+		Connection c= MyConnection.getConnection();
+		PreparedStatement ps= c.prepareStatement("UPDATE player SET name=? WHERE playerid=?");
+		ps.setString(1, name);
+		ps.setInt(2, id);
+		System.out.println("Data Updated Succesfully");
+		return ps.execute();
 	}
 	
-}
-
-public void deletePlayer(Player p) throws Exception {
-	Connection mc=MyConnection.getConnection();
-	
-	Statement s = mc.createStatement();
-	
-	PreparedStatement ps=mc.prepareStatement("delete from player where name = (?); ");
-	
-	//ResultSet rs = s.executeQuery("select * from Team");
-	
-	ps.setString(1,p.getName());
-	
-	boolean rs = ps.execute();
-    
-	if(rs)
-	{}
-	else{
-		System.out.println("Player sucessfully deleted.");
+	public void showPlayer() throws Exception
+	{
+		Connection c= MyConnection.getConnection();
+		PreparedStatement ps=c.prepareStatement("Select * from player;");
+		ps.execute();
+		ResultSet rs=ps.executeQuery();
+		while(rs.next())
+		{
+			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getDate(3)+" "+rs.getString(4)+" "+rs.getString(5)+" "+rs.getInt(6)+" "+rs.getInt(7)+" "+rs.getInt(8)+" "+rs.getInt(9));
+			
+		}
 	}
-	
-}
 
-
-
-
-
-//ps.setInt(1,getPlayUerId());
-	//ps.setString(2,getPlayerName());
-	//ResultSet rs =s.executeQuery(null);
-	//return s.execute(null);
-	
 }
