@@ -1,14 +1,17 @@
-package com.ltts.config;
+package com.ltts.configuration;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-	public static Connection getConnection() throws Exception {
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ipl","root","root");
+	public static Connection getConnection() throws SQLException
+	{
+		Connection c=DriverManager.getConnection("jdbc:mysql://localhost:3306/shaloo","root","admin");
 		
-		return con;
+		return c;
+		
 	}
 
 }
